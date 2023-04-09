@@ -5,6 +5,8 @@
 <head>
     <title>Meals</title>
     <style>
+        .normal{color: green}
+        .exceeded{color: red}
         table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
@@ -20,7 +22,7 @@
 <hr>
 <h2>Meals</h2>
 <section>
-    <a href="meals?&action=save">Add Meal</a>
+    <a href="meals?&action=edit">Add Meal</a>
     <p></p>
     <table>
         <tr>
@@ -33,17 +35,10 @@
         <jsp:useBean id="mealList" type="java.util.List" scope="request"/>
         <c:forEach items="${mealList}" var="meal">
             <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
-            <tr>
-                <c:if test="${!meal.excess}">
-                    <td style="color:green"><%=meal.getDate().toLocalDate()%> <%=meal.getDate().toLocalTime()%></td>
-                    <td style="color:green"><%=meal.getDescription()%></td>
-                    <td style="color:green"><%=meal.getCalories()%></td>
-                </c:if>
-                <c:if test="${meal.excess}">
-                    <td style="color:red"><%=meal.getDate().toLocalDate()%> <%=meal.getDate().toLocalTime()%></td>
-                    <td style="color:red"><%=meal.getDescription()%></td>
-                    <td style="color:red"><%=meal.getCalories()%></td>
-                </c:if>
+            <tr class="${!meal.excess ? 'normal':'exceeded'}">
+                    <td><%=meal.getDate().toLocalDate()%> <%=meal.getDate().toLocalTime()%></td>
+                    <td>${meal.description}</td>
+                    <td>${meal.calories}</td>
                 <td><a href="meals?&action=update">Update</a></td>
                 <td><a href="meals?&action=delete">Delete</a></td>
             </tr>
