@@ -22,8 +22,8 @@
 </head>
 <body>
 <h3><a href="index.html">Home</a></h3>
-<h2>Edit meal</h2>
 <hr>
+<h2>Edit meal</h2>
 <form method="post" action="${meal == null ? '?action=create' : '?action=update&id=' += meal.id}">
     <dl>
         <dt>Date time</dt>
