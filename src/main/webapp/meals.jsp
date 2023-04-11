@@ -22,7 +22,7 @@
 <hr>
 <h2>Meals</h2>
 <section>
-    <a href="meals?&action=edit">Add Meal</a>
+    <a href="meals?action=add">Add Meal</a>
     <p></p>
     <table>
         <tr>
@@ -32,15 +32,15 @@
             <th>Update</th>
             <th>Delete</th>
         </tr>
-        <jsp:useBean id="mealList" type="java.util.List" scope="request"/>
-        <c:forEach items="${mealList}" var="meal">
+        <jsp:useBean id="meals" type="java.util.List" scope="request"/>
+        <c:forEach items="${meals}" var="meal">
             <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
             <tr class="${!meal.excess ? 'normal':'exceeded'}">
-                    <td><%=meal.getDate().toLocalDate()%> <%=meal.getDate().toLocalTime()%></td>
+                    <td>${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}</td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
-                <td><a href="meals?&action=update">Update</a></td>
-                <td><a href="meals?&action=delete">Delete</a></td>
+                <td><a href="meals?action=edit&id=${meal.id}">Update</a></td>
+                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
