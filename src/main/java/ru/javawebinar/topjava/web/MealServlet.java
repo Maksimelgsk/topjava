@@ -69,11 +69,11 @@ public class MealServlet extends HttpServlet {
         log.debug("Start doPost method");
         String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
-                LocalDateTime.parse(request.getParameter("dateTime"), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
         log.info(meal.isNew() ? "create {}" : "update {}", meal);
-        mealStorage.add(meal);
+        mealStorage.save(meal);
         response.sendRedirect("meals");
     }
 }

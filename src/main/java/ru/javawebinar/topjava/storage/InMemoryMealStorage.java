@@ -24,15 +24,17 @@ public class InMemoryMealStorage implements MealStorage {
                 new Meal(LocalDateTime.of(2023, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
                 new Meal(LocalDateTime.of(2023, Month.JANUARY, 31, 13, 0), "Обед", 500),
                 new Meal(LocalDateTime.of(2023, Month.JANUARY, 31, 20, 0), "Ужин", 410)
-        ).forEach(this::add);
+        ).forEach(this::save);
     }
 
     @Override
-    public Meal add(Meal meal) {
+    public Meal save(Meal meal) {
         if (meal.isNew()) {
             meal.setId(mealId.getAndIncrement());
+            meals.put(meal.getId(), meal);
+            return meal;
         }
-        return meals.put(meal.getId(), meal);
+        return meals.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
     }
 
     @Override

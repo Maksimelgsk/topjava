@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public static List<MealTo> filteredByStreams(List<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
+    public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
                         Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
                 );
         return meals.stream()
-                .filter(filter)
+                .filter(meal -> TimeUtil.isBetweenHalfOpen(meal.getTime(), startTime, endTime))
                 .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
@@ -29,6 +29,6 @@ public class MealsUtil {
     }
 
     public static List<MealTo> getWithExceeded(List<Meal> meals, int calories) {
-        return filteredByStreams(meals, calories, meal -> true);
+        return filteredByStreams(meals, LocalDateTime.MIN.toLocalTime(), LocalDateTime.MAX.toLocalTime(), calories);
     }
 }
