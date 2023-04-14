@@ -29,6 +29,6 @@ public class MealsUtil {
     }
 
     public static List<MealTo> getWithExceeded(List<Meal> meals, int calories) {
-        return filteredByStreams(meals, LocalDateTime.MIN.toLocalTime(), LocalDateTime.MAX.toLocalTime(), calories);
+        return filteredByStreams(meals, LocalTime.MIN, LocalTime.MAX, calories);
     }
 }
